@@ -1,26 +1,37 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
+import { SwaggerRead, SwaggerCreate, SwaggerUpdate, SwaggerDelete } from './shared/decorators/swagger.decorator';
+import { PostExample } from './shared/dto/post-example.dto';
+import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
+import { ObjectIdPipe } from './shared/pipes/object-id.pipe';
+
 
 @Controller()
+@UseFilters(HttpExceptionFilter)
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Post(':dbname')
-  post(@Body() data: any, @Param('dbname') name: string): any {
+  @Post(':collection')
+  @SwaggerCreate()
+  create(@Body() data: PostExample, @Param('collection') name: string): any {
     return this.appService.post(name, data);
   }
 
-  @Get(':dbname')
-  get(@Param('dbname') name: string): any {
+  @Get(':collection')
+  @SwaggerRead()
+  read(@Param('collection') name: string): any {
     return this.appService.db[name] || [];
   }
 
-  @Get()
-  getHello(): any {
-    return {
-      endpoint: 'https://lightzane-db.herokuapp.com/<YOUR_COLLECTION_NAME_HERE>',
-      inserData: 'Insert data by calling a POST request and pass the data object in the BODY',
-      getData: 'Retrieve the data by calling a GET request'
-    }
+  @Patch(':collection')
+  @SwaggerUpdate()
+  update(@Body() data: PostExample, @Param('collection') collection: string): any {
+    return this.appService.update(collection, data);
+  }
+
+  @Delete(':collection/:id')
+  @SwaggerDelete()
+  delete(@Param('collection') collection: string, @Param('id', new ObjectIdPipe()) id: string): any {
+    return this.appService.delete(collection, id);
   }
 }

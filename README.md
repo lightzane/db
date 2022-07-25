@@ -10,6 +10,8 @@ Endpoint: `https://lightzane-db.herokuapp.com/:your_collection_name`
 
 **GET** request to get the data
 
+See more details: https://lightzane-db.herokuapp.com/
+
 #### Created with NestJs v9.0.0
 
 <p align="center">
