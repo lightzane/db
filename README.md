@@ -2,6 +2,8 @@
 
 This is app allows quick testing of API calls. (https://lightzane-db.herokuapp.com/)
 
+You can use https://www.mockaroo.com to generate random data.
+
 ## How to Use
 
 Endpoint: `https://lightzane-db.herokuapp.com/:your_collection_name`

@@ -11,7 +11,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Temp DB')
     .setDescription('For quickly testing API calls while storing and retrieving data into a temporary collection<br>Try adding data object/array in it with <a href="https://www.mockaroo.com" target="_blank">https://www.mockaroo.com</a>')
-    .setVersion('0.1.0')
+    .setVersion('0.1.1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, { customSiteTitle: 'Temp DB' });

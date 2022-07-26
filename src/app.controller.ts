@@ -14,7 +14,7 @@ export class AppController {
   @Post(':collection')
   @SwaggerCreate()
   create(@Body() data: PostExample, @Param('collection') name: string): any {
-    return this.appService.post(name, data);
+    return this.appService.create(name, data);
   }
 
   @Get(':collection')

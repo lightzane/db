@@ -6,11 +6,15 @@ export class AppService {
 
   readonly db = {};
 
-  post(collection: string, data: any): any {
-    // Create new prop if not exist
-    if (!this.db[collection]) {
-      this.db[collection] = [];
-    }
+  /**
+   * Adds `_id` and `timestamp` to the record
+   * @param collection name on where to store the data
+   * @param data the data to store
+   * @returns the updated data
+   */
+  private updateAndPush(collection: string, data: any): any {
+    // delete _id exist on data
+    delete data._id;
 
     // Add _id to data
     const ts = Date.now();
@@ -23,6 +27,25 @@ export class AppService {
 
     // Push to prop
     this.db[collection].push(updated);
+
+    return updated;
+  }
+
+  create(collection: string, data: any): any {
+    // Create new prop if not exist
+    if (!this.db[collection]) {
+      this.db[collection] = [];
+    }
+
+    let updated: any = [];
+
+    if (data.length > 0) {
+      for (let d of data) {
+        updated.push(this.updateAndPush(collection, d));
+      }
+    } else {
+      updated = this.updateAndPush(collection, data);
+    }
 
     return updated;
   }
